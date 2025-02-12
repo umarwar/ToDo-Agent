@@ -22,7 +22,7 @@ An intelligent AI-powered Todo List Assistant that helps manage your tasks throu
 1. Clone the repository:
 ```sh
 git clone <repository-url>
-cd ai-todo-assistant
+cd ToDo-Agent
 ```
 
 2. Create and activate a virtual environment:
