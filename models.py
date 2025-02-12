@@ -1,7 +1,8 @@
-from sqlalchemy import create_engine, Column, Integer, String, select, Text
+from sqlalchemy import create_engine, Column, Integer, String, select, Text, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
+from datetime import datetime
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -16,6 +17,7 @@ class Todo(Base):
 
     id = Column(Integer, primary_key=True)
     todo = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
 
 Base.metadata.create_all(engine)
