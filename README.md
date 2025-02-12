@@ -1,4 +1,4 @@
-# AI Todo List Assistant
+# AI Todo List Agent
 
 An intelligent AI-powered Todo List Assistant that helps manage your tasks through natural language conversation. Built with Python using Meta's Llama 3 model via Replicate.
 
