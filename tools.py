@@ -1,25 +1,32 @@
 from typing import List, Union
 from sqlalchemy import select
 from models import Session, Todo
+from crewai.tools import tool
 
 
-def get_all_todos(_=None) -> list[dict]:
+@tool("Get All Todos")
+def getAllTodos(_=None) -> str:
+    """Get all todos from the database. Returns a list of todos with their IDs."""
     with Session() as session:
         todos = session.execute(select(Todo)).scalars().all()
-        return [{"id": todo.id, "todo": todo.todo} for todo in todos]
+        return str([{"id": todo.id, "todo": todo.todo} for todo in todos])
 
 
-def create_todo(todo_text: str) -> int:
+@tool("Create Todo")
+def createTodo(todo_text: str) -> str:
+    """Create a new todo in the database. Returns the ID of the created todo."""
     if not isinstance(todo_text, str):
         raise ValueError("Todo text must be a string")
     with Session() as session:
         new_todo = Todo(todo=todo_text)
         session.add(new_todo)
         session.commit()
-        return new_todo.id
+        return f"Created todo with ID: {new_todo.id}"
 
 
-def delete_todo_by_id(todo_id: Union[int, str]) -> None:
+@tool("Delete Todo")
+def deleteTodoById(todo_id: Union[int, str]) -> str:
+    """Delete a todo by its ID. Returns a confirmation message."""
     if todo_id is None:
         raise ValueError("Todo ID cannot be None")
 
@@ -33,9 +40,13 @@ def delete_todo_by_id(todo_id: Union[int, str]) -> None:
         if todo:
             session.delete(todo)
             session.commit()
+            return f"Deleted todo with ID: {todo_id}"
+        return f"No todo found with ID: {todo_id}"
 
 
-def search_todo(search_text: str) -> List[dict]:
+@tool("Search Todos")
+def searchTodo(search_text: str) -> str:
+    """Search for todos containing specific text. Returns matching todos."""
     if not search_text:
         raise ValueError("Search text cannot be empty")
 
@@ -45,12 +56,4 @@ def search_todo(search_text: str) -> List[dict]:
             .scalars()
             .all()
         )
-        return [{"id": todo.id, "todo": todo.todo} for todo in todos]
-
-
-tools = {
-    "getAllTodos": get_all_todos,
-    "createTodo": create_todo,
-    "deleteTodoById": delete_todo_by_id,
-    "searchTodo": search_todo,
-}
+        return str([{"id": todo.id, "todo": todo.todo} for todo in todos])
