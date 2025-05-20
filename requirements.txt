@@ -1,5 +1,6 @@
+crewai
 sqlalchemy
-psycopg2-binary
 python-dotenv
+psycopg2-binary
 replicate
 asyncio 
