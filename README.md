@@ -43,6 +43,7 @@ pip install -r requirements.txt
 4. Create a `.env` file in the root directory with the following variables:
 ```sh
 DATABASE_URL=postgresql://username:password@host:port/database
+OPENAPI_API_KEY=your_openai_api_key
 ```
 
 ## Database Setup
